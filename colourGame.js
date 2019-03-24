@@ -9,48 +9,52 @@ var banner = document.querySelector(".banner")
 var reset = document.querySelector("#reset")
 var modes = document.querySelectorAll(".mode")
 
-// Setting up square funcitonality
-for(var i = 0; i < squares.length; i++) {
-	squares[i].style.backgroundColor = colours[i]
-	squares[i].addEventListener("click", function () {
-		var clickedColour = this.style.backgroundColor
-		if (clickedColour === pickedColour) {
-			changeColours(pickedColour)
-			msg.textContent = "Correct!"
-			reset.textContent = "Play Again"
-		}
-		else {
-			this.style.backgroundColor = "#232323"
-			msg.textContent = "Try Again"
-		}
-	})
-}
+init()
 
-// Changing Modes
-for(var i = 0; i < modes.length; i++) {
-	modes[i].addEventListener("click", function() {
-		modes[0].classList.remove("selected")
-		modes[1].classList.remove("selected")
-		modes[2].classList.remove("selected")
-		this.classList.add("selected")
+function init() {
+	// Setting up square funcitonality
+	for(var i = 0; i < squares.length; i++) {
+		squares[i].style.backgroundColor = colours[i]
+		squares[i].addEventListener("click", function () {
+			var clickedColour = this.style.backgroundColor
+			if (clickedColour === pickedColour) {
+				changeColours(pickedColour)
+				msg.textContent = "Correct!"
+				reset.textContent = "Play Again"
+			}
+			else {
+				this.style.backgroundColor = "#232323"
+				msg.textContent = "Try Again"
+			}
+		})
+	}
 
-		switch(this.textContent) {
-			case "Easy":
-				colours = generateColours(3)
-				break
-			case "Medium":
-				colours = generateColours(6)
-				break
-			case "Hard":
-				colours = generateColours(9)
-				break
-			default: 
-		}
+	// Changing Modes
+	for(var i = 0; i < modes.length; i++) {
+		modes[i].addEventListener("click", function() {
+			modes[0].classList.remove("selected")
+			modes[1].classList.remove("selected")
+			modes[2].classList.remove("selected")
+			this.classList.add("selected")
 
-		resetBoard()
-		showSquares()
-		setColours()
-	})
+			switch(this.textContent) {
+				case "Easy":
+					colours = generateColours(3)
+					break
+				case "Medium":
+					colours = generateColours(6)
+					break
+				case "Hard":
+					colours = generateColours(9)
+					break
+				default: 
+			}
+
+			resetBoard()
+			showSquares()
+			setColours()
+		})
+	}
 }
 
 // New colours / Play Again
