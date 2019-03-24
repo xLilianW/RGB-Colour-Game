@@ -118,7 +118,6 @@ function showSquares() {
 	}
 }
 
-
 // Reset the game upon changing modes or trying again
 function resetBoard() {
 	banner.style.backgroundColor = "#428bca"	
