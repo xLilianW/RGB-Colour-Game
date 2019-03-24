@@ -7,10 +7,9 @@ colourDisplay.textContent = pickedColour
 var msg = document.querySelector("#msg")
 var banner = document.querySelector(".banner")
 var reset = document.querySelector("#reset")
-var easy = document.querySelector("#easy")
-var medium = document.querySelector("#medium")
-var hard = document.querySelector("#hard")
+var modes = document.querySelectorAll(".mode")
 
+// Setting up square funcitonality
 for(var i = 0; i < squares.length; i++) {
 	squares[i].style.backgroundColor = colours[i]
 	squares[i].addEventListener("click", function () {
@@ -27,45 +26,41 @@ for(var i = 0; i < squares.length; i++) {
 	})
 }
 
-easy.addEventListener("click", function() {
-	this.classList.add("selected")
-	medium.classList.remove("selected")
-	hard.classList.remove("selected")
-	colours = generateColours(3)
+// Changing Modes
+for(var i = 0; i < modes.length; i++) {
+	modes[i].addEventListener("click", function() {
+		modes[0].classList.remove("selected")
+		modes[1].classList.remove("selected")
+		modes[2].classList.remove("selected")
+		this.classList.add("selected")
 
-	resetBoard()
-	showSquares()
-	setColours()
-})
+		switch(this.textContent) {
+			case "Easy":
+				colours = generateColours(3)
+				break
+			case "Medium":
+				colours = generateColours(6)
+				break
+			case "Hard":
+				colours = generateColours(9)
+				break
+			default: 
+		}
 
-medium.addEventListener("click", function() {
-	this.classList.add("selected")
-	easy.classList.remove("selected")
-	hard.classList.remove("selected")
-	colours = generateColours(6)
+		resetBoard()
+		showSquares()
+		setColours()
+	})
+}
 
-	resetBoard()
-	showSquares()
-	setColours()
-})
-
-hard.addEventListener("click", function() {
-	this.classList.add("selected")
-	medium.classList.remove("selected")
-	easy.classList.remove("selected")
-	colours = generateColours(9)
-
-	resetBoard()
-	showSquares()
-	setColours()
-})
-
+// New colours / Play Again
 reset.addEventListener("click", function(){
 	colours = generateColours(colours.length)
 	resetBoard()
 	setColours()
 })
 
+// Change all colours upon winning
 function changeColours(colour) {
 	for(var i = 0; i < colours.length; i++) {
 		squares[i].style.backgroundColor = colour
@@ -74,11 +69,13 @@ function changeColours(colour) {
 	banner.style.backgroundColor = colour
 }
 
+// Pick colour to be guessed
 function pickColour() {
 	var rand = Math.floor(Math.random() * colours.length)
 	return colours[rand]
 }
 
+// Generate random colours
 function generateColours(nColours) {
 	var colours = []
 
@@ -89,6 +86,7 @@ function generateColours(nColours) {
 	return colours
 }
 
+// Generate a random colour
 function randomColour() {
 	var red = Math.floor(Math.random() * 256)
 	var blue = Math.floor(Math.random() * 256)
@@ -97,12 +95,14 @@ function randomColour() {
 	return "rgb(" + red + ", " + green + ", " + blue + ")"
 }
 
+// Set squares to generated colours
 function setColours() {
 	for(var i = 0; i < colours.length; i++) {
 		squares[i].style.backgroundColor = colours[i]
 	}
 }
 
+// Change square visibility when changing modes
 function showSquares() {
 	for(var i = 0; i < squares.length; i++) {
 		if(colours[i]){
@@ -114,9 +114,12 @@ function showSquares() {
 	}
 }
 
+
+// Reset the game upon changing modes or trying again
 function resetBoard() {
 	banner.style.backgroundColor = "#428bca"	
 	msg.textContent = ""
 	pickedColour = pickColour()
 	colourDisplay.textContent = pickedColour
+	reset.textContent = "New Colours"
 }
